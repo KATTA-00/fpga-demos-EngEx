@@ -3,8 +3,7 @@
 
 module updown_counter (
     input  wire        CLOCK_50,  // 50 MHz clock
-    input  wire [17:0] SW,        // Controls: SW[0]=run, SW[1]=direction (1=up), SW[2]=speed (1=fast)
-    input  wire [3:0]  KEY,       // Buttons: KEY[0]=active-low reset
+    input  wire [2:0]  SW,        // Controls: SW[0]=run, SW[1]=direction (1=up), SW[2]=speed (1=fast)
     output reg  [17:0] LEDR       // LEDs display the counter value
 );
 
@@ -15,9 +14,7 @@ module updown_counter (
     wire        tick    = (div_cnt == limit);
 
     always @(posedge CLOCK_50) begin
-        if (!KEY[0]) begin
-            div_cnt <= 26'd0;
-        end else if (tick) begin
+        if (tick) begin
             div_cnt <= 26'd0;
         end else begin
             div_cnt <= div_cnt + 1'b1;
@@ -30,9 +27,7 @@ module updown_counter (
 
     // 18-bit up/down counter shown on LEDR
     always @(posedge CLOCK_50) begin
-        if (!KEY[0]) begin
-            LEDR <= 18'd0;
-        end else if (run && tick) begin
+        if (run && tick) begin
             if (dir_up)
                 LEDR <= LEDR + 18'd1;
             else
