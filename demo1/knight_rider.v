@@ -11,6 +11,7 @@ module knight_rider (
     reg        direction;     // 0 = left, 1 = right
     reg [17:0] pattern;
 
+
     wire [25:0] limit = SW0 ? 26'd5_000_000 : 26'd25_000_000;  
     // ~0.1s fast, ~0.5s slow (adjust for your clock)
 
